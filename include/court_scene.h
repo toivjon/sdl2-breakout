@@ -1,7 +1,7 @@
 #ifndef BREAKOUT_COURT_SCENE_H
 #define BREAKOUT_COURT_SCENE_H
 
-#include "game.h"
+#include "scene.h"
 
 namespace breakout
 {
@@ -9,7 +9,7 @@ namespace breakout
 	{
 	public:
 		// ...
-	}
+  };
 }
 
 #endif

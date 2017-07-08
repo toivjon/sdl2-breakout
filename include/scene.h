@@ -3,10 +3,10 @@
 
 namespace breakout
 {
-	class Scene
-	{
-		// ...
-	}
+  class Scene
+  {
+    // ...
+  };
 }
 
 #endif
