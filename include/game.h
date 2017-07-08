@@ -18,6 +18,7 @@ namespace breakout
 	{
 	public:
     enum class State { NOT_INITED, INITED, RUNNING, STOPPED };
+    enum class PlayMode { SINGLE_PLAYER, TWO_PLAYERS };
 
     Game() = delete;
     Game(int height, int width, const std::string& fontPath);
@@ -34,12 +35,16 @@ namespace breakout
     int run();
 
     SDL_Texture* createText(const std::string& text);
+
+    PlayMode getPlayMode() const { return mPlayMode; }
+    void setPlayMode(PlayMode playMode) { mPlayMode = playMode; }
   private:
     SDL_Window*             mWindow;
     SDL_Renderer*           mRenderer;
     _TTF_Font*              mFont;
     std::shared_ptr<Scene>  mScene;
     State                   mState;
+    PlayMode                mPlayMode;
   };
 }
 

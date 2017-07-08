@@ -22,6 +22,7 @@ namespace breakout
     void render() override;
     void enter() override;
     void exit() override;
+    void keyUp(SDL_KeyboardEvent& event);
   };
 }
 
