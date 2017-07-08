@@ -9,6 +9,7 @@
 // global namespace forward declarations.
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_Texture;
 struct _TTF_Font;
 
 namespace breakout
@@ -31,6 +32,8 @@ namespace breakout
     void setScene(std::shared_ptr<Scene> scene);
 
     int run();
+
+    SDL_Texture* createText(const std::string& text);
   private:
     SDL_Window*             mWindow;
     SDL_Renderer*           mRenderer;

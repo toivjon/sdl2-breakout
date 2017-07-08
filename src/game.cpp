@@ -116,3 +116,24 @@ int Game::run()
   }
   return 0;
 }
+
+SDL_Texture* Game::createText(const std::string& text)
+{
+  // create a surface which contains the desired text.
+  SDL_Color color{ 0xff, 0xff, 0xff, 0xff };
+  auto surface = TTF_RenderText_Blended(mFont, text.c_str(), color);
+  if (surface == nullptr) {
+    std::cerr << "Unable to create a surface with a text: " << TTF_GetError() << std::endl;
+    return nullptr;
+  }
+
+  // create a texture from the text surface.
+  auto texture = SDL_CreateTextureFromSurface(mRenderer, surface);
+  SDL_FreeSurface(surface);
+  if (texture == nullptr) {
+    std::cerr << "Unable to create texture from a text surface: " << SDL_GetError() << std::endl;
+    return nullptr;
+  }
+
+  return texture;
+}
