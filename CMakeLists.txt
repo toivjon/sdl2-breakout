@@ -14,9 +14,9 @@ include_directories(
 	${SDL2_TTF_INCLUDE}
 )
 
-add_executable(pong ${SOURCES})
+add_executable(breakout ${SOURCES})
 
-target_link_libraries(pong
+target_link_libraries(breakout
 	${SDL2_LIBRARY}
 	${SDL2_TTF_LIBRARY}
 )
