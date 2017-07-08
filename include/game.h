@@ -16,6 +16,8 @@ namespace breakout
 	class Game final
 	{
 	public:
+    enum class State { NOT_INITED, INITED, RUNNING, STOPPED };
+
     Game() = delete;
     Game(int height, int width, const std::string& fontPath);
     Game(const Game&) = delete;
@@ -34,6 +36,7 @@ namespace breakout
     SDL_Renderer*           mRenderer;
     _TTF_Font*              mFont;
     std::shared_ptr<Scene>  mScene;
+    State                   mState;
   };
 }
 

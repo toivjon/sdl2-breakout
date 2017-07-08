@@ -7,7 +7,7 @@
 
 using namespace breakout;
 
-Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr)
+Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr), mState(State::NOT_INITED)
 {
   // initialize all SDL2 framework systems.
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -41,6 +41,9 @@ Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr
     std::cerr << "Unable to load font: " << TTF_GetError() << std::endl;
     return;
   }
+
+  // check that the game gets inited state flag.
+  mState = State::INITED;
 }
 
 Game::~Game()
@@ -74,8 +77,35 @@ void Game::setScene(std::shared_ptr<Scene> scene)
 
 int Game::run()
 {
+  // return with an error code if we do not have a good game state.
+  if (mState != State::INITED && mState != State::STOPPED) {
+    std::cerr << "Unable to run game as the game state is " << (int)mState << std::endl;
+    return -1;
+  }
+
   // set the initial scene for the game.
   setScene(std::make_shared<WelcomeScene>(*this));
 
+  SDL_Event event;
+  mState = State::RUNNING;
+  while (mState == State::RUNNING) {
+    // poll and handle events from the SDL.
+    while (SDL_PollEvent(&event) != 0) {
+      switch (event.type) {
+      case SDL_QUIT:
+        mState = State::STOPPED;
+        break;
+      case SDL_KEYDOWN:
+        mScene->keyDown(event.key);
+        break;
+      case SDL_KEYUP:
+        mScene->keyUp(event.key);
+        break;
+      }
+    }
+
+    mScene->update();
+    mScene->render();
+  }
   return 0;
 }
