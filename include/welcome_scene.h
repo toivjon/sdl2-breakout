@@ -7,8 +7,21 @@ namespace breakout
 {
 	class WelcomeScene final : public Scene
 	{
-	public:
-		// ...
+  public:
+    WelcomeScene() = delete;
+    WelcomeScene(Game& game);
+    WelcomeScene(const WelcomeScene&) = delete;
+    WelcomeScene(WelcomeScene&&) = delete;
+
+    WelcomeScene& operator=(const WelcomeScene&) = delete;
+    WelcomeScene& operator=(WelcomeScene&&) = delete;
+
+    ~WelcomeScene();
+
+    void update() override;
+    void render() override;
+    void enter() override;
+    void exit() override;
   };
 }
 

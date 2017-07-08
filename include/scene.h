@@ -6,15 +6,28 @@ struct SDL_KeyboardEvent;
 
 namespace breakout
 {
+  class Game;
   class Scene
   {
   public:
-    virtual void update() = 0;
-    virtual void render() = 0;
-    virtual void enter() = 0;
-    virtual void exit() = 0;
-    virtual void keyDown(SDL_KeyboardEvent& event) = 0;
-    virtual void keyUp(SDL_KeyboardEvent& event) = 0;
+    Scene() = delete;
+    Scene(Game& game) : mGame(game) {}
+    Scene(const Scene&) = delete;
+    Scene(Scene&&) = delete;
+
+    Scene& operator=(const Scene&) = delete;
+    Scene& operator=(Scene&&) = delete;
+
+    virtual ~Scene() {}
+
+    virtual void update() {}
+    virtual void render() {}
+    virtual void enter() {}
+    virtual void exit() {}
+    virtual void keyDown(SDL_KeyboardEvent& event) {}
+    virtual void keyUp(SDL_KeyboardEvent& event) {}
+  protected:
+    Game& mGame;
   };
 }
 

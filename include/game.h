@@ -27,6 +27,8 @@ namespace breakout
     ~Game();
 
     void setScene(std::shared_ptr<Scene> scene);
+
+    int run();
   private:
     SDL_Window*             mWindow;
     SDL_Renderer*           mRenderer;

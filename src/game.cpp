@@ -1,4 +1,5 @@
 #include "game.h"
+#include "welcome_scene.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -69,4 +70,12 @@ void Game::setScene(std::shared_ptr<Scene> scene)
     mScene = scene;
     mScene->enter();
   }
+}
+
+int Game::run()
+{
+  // set the initial scene for the game.
+  setScene(std::make_shared<WelcomeScene>(*this));
+
+  return 0;
 }
