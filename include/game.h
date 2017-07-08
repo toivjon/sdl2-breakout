@@ -1,6 +1,9 @@
 #ifndef BREAKOUT_GAME_H
 #define BREAKOUT_GAME_H
 
+#include "scene.h"
+
+#include <memory>
 #include <string>
 
 // global namespace forward declarations.
@@ -22,10 +25,13 @@ namespace breakout
     Game& operator=(Game&&) = delete;
 
     ~Game();
+
+    void setScene(std::shared_ptr<Scene> scene);
   private:
-    SDL_Window*   mWindow;
-    SDL_Renderer* mRenderer;
-    _TTF_Font*    mFont;
+    SDL_Window*             mWindow;
+    SDL_Renderer*           mRenderer;
+    _TTF_Font*              mFont;
+    std::shared_ptr<Scene>  mScene;
   };
 }
 

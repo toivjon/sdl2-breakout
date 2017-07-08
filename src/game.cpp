@@ -6,7 +6,7 @@
 
 using namespace breakout;
 
-Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr)
+Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr)
 {
   // initialize all SDL2 framework systems.
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -55,4 +55,18 @@ Game::~Game()
   }
   TTF_Quit();
   SDL_Quit();
+}
+
+void Game::setScene(std::shared_ptr<Scene> scene)
+{
+  if (scene) {
+    // perform a cleanup from the old scene (if any).
+    if (mScene) {
+      mScene->exit();
+    }
+
+    // apply the new scene and call the scene init (reset).
+    mScene = scene;
+    mScene->enter();
+  }
 }
