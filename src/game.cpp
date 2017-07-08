@@ -6,7 +6,7 @@
 
 using namespace breakout;
 
-Game::Game(int height, int width) : mWindow(nullptr)
+Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr)
 {
   // initialize all SDL2 framework systems.
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -26,10 +26,30 @@ Game::Game(int height, int width) : mWindow(nullptr)
     std::cerr << "Unable to create SDL window: " << SDL_GetError() << std::endl;
     return;
   }
+
+  // create renderer for the application window.
+  mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+  if (mRenderer == nullptr) {
+    std::cerr << "Unable to create SDL renderer: " << SDL_GetError() << std::endl;
+    return;
+  }
+
+  // initialize the selected font for the application.
+  mFont = TTF_OpenFont(fontPath.c_str(), 28);
+  if (mFont == nullptr) {
+    std::cerr << "Unable to load font: " << TTF_GetError() << std::endl;
+    return;
+  }
 }
 
 Game::~Game()
 {
+  if (mFont != nullptr) {
+    TTF_CloseFont(mFont);
+  }
+  if (mRenderer != nullptr) {
+    SDL_DestroyRenderer(mRenderer);
+  }
   if (mWindow != nullptr) {
     SDL_DestroyWindow(mWindow);
   }

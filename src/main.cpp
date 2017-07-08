@@ -11,6 +11,6 @@
  
  int main(int argc, char* args[])
  {
-  Game game(800, 950);
+  Game game(800, 950, "C:/Windows/Fonts/arial.ttf");
   return 0;
  }
