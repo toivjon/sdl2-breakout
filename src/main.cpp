@@ -11,6 +11,6 @@
  
  int main(int argc, char* args[])
  {
-	// ...
-	return 0;
+  Game game(800, 950);
+  return 0;
  }
