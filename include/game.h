@@ -38,6 +38,10 @@ namespace breakout
 
     PlayMode getPlayMode() const { return mPlayMode; }
     void setPlayMode(PlayMode playMode) { mPlayMode = playMode; }
+
+    SDL_Renderer& getRenderer() const { return *mRenderer; }
+
+    SDL_Window* getWindow() const { return mWindow; }
   private:
     SDL_Window*             mWindow;
     SDL_Renderer*           mRenderer;
