@@ -8,7 +8,15 @@ namespace breakout
 	class CourtScene final : public Scene
 	{
 	public:
-		// ...
+    CourtScene() = delete;
+    CourtScene(Game& game);
+    CourtScene(const CourtScene&) = delete;
+    CourtScene(CourtScene&&) = delete;
+
+    CourtScene& operator=(const CourtScene&) = delete;
+    CourtScene& operator=(CourtScene&&) = delete;
+
+    ~CourtScene();
   };
 }
 

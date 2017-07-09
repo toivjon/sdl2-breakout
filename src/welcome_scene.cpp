@@ -110,11 +110,11 @@ void WelcomeScene::keyUp(SDL_KeyboardEvent& event)
   switch (event.keysym.sym) {
   case SDLK_1:
     mGame.setPlayMode(Game::PlayMode::SINGLE_PLAYER);
-    // TODO mGame.setScene(std::make_shared<CourtScene>(mGame));
+    mGame.setScene(std::make_shared<CourtScene>(mGame));
     break;
   case SDLK_2:
     mGame.setPlayMode(Game::PlayMode::TWO_PLAYERS);
-    // TODO mGame.setScene(std::make_shared<CourtScene>(mGame));
+    mGame.setScene(std::make_shared<CourtScene>(mGame));
     break;
   }
 }
