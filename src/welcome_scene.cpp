@@ -25,10 +25,6 @@ WelcomeScene::WelcomeScene(Game& game)
   mOnePlayerGameText = mGame.createText("Press [1] to start a 1 player game");
   mTwoPlayerGameText = mGame.createText("Press [2] to start a 2 player game");
 
-  // construct positions for each text texture.
-  mTopicTextPosition = { 0, 0, 0, 0 };
-  mControlTextPosition = { 0, 0, 0, 0 };
-
   // query texture dimensions for each text texture.
   SDL_QueryTexture(mTopicText, nullptr, nullptr, &mTopicTextPosition.w, &mTopicTextPosition.h);
   SDL_QueryTexture(mControlsText, nullptr, nullptr, &mControlTextPosition.w, &mControlTextPosition.h);
