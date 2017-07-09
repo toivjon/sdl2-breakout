@@ -10,13 +10,8 @@ namespace breakout
   public:
     Entity() : Entity({ 0,0,0,0 }) {}
     Entity(const SDL_Rect& rect) : mRect(rect) {}
-    Entity(const Entity& o) : mRect(o.mRect) {}
-    Entity(Entity&& o) : mRect(o.mRect) {}
 
-    Entity& operator=(const Entity& o) { mRect = o.mRect; return *this; }
-    Entity& operator=(Entity&& o) { mRect = o.mRect; return *this; }
-
-    virtual ~Entity() {}
+    virtual ~Entity() = default;
 
     int getX() const      { return mRect.x; }
     int getY() const      { return mRect.y; }
@@ -27,7 +22,7 @@ namespace breakout
     void setY(int y)      { mRect.y = y; }
     void setWidth(int w)  { mRect.w = w; }
     void setHeight(int h) { mRect.h = h; }
-  private:
+  protected:
     SDL_Rect mRect;
   };
 }

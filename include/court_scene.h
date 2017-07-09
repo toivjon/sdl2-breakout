@@ -2,6 +2,8 @@
 #define BREAKOUT_COURT_SCENE_H
 
 #include "entity.h"
+#include "drawable.h"
+#include "collideable.h"
 #include "scene.h"
 
 namespace breakout
