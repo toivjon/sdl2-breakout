@@ -17,6 +17,12 @@ namespace breakout
     CourtScene& operator=(CourtScene&&) = delete;
 
     ~CourtScene();
+
+    void update() override;
+    void render() override;
+    void enter() override;
+    void keyDown(SDL_KeyboardEvent& event) override;
+    void keyUp(SDL_KeyboardEvent& event) override;
   };
 }
 
