@@ -1,6 +1,7 @@
 #ifndef BREAKOUT_COURT_SCENE_H
 #define BREAKOUT_COURT_SCENE_H
 
+#include "entity.h"
 #include "scene.h"
 
 namespace breakout
