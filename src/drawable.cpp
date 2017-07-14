@@ -10,7 +10,7 @@ Drawable::Drawable() : Drawable({ 0,0,0,0 })
 }
 
 Drawable::Drawable(const SDL_Rect& rect) : Entity(rect),
-  mColor({ 0,0,0,0 }),
+  mColor({ 0xff, 0xff, 0xff, 0xff }),
   mVisible(true)
 {
   // ...

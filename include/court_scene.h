@@ -26,6 +26,10 @@ namespace breakout
     void enter() override;
     void keyDown(SDL_KeyboardEvent& event) override;
     void keyUp(SDL_KeyboardEvent& event) override;
+  private:
+    Collideable mLeftWall;
+    Collideable mRightWall;
+    Collideable mTopWall;
   };
 }
 
