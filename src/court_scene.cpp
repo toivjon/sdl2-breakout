@@ -112,12 +112,12 @@ void CourtScene::keyUp(SDL_KeyboardEvent& event)
 {
   switch (event.keysym.sym) {
   case SDLK_LEFT:
-    if (std::fabs(mPaddle.getDirectionX() - 1.f) < 0.00001f) {
+    if (std::fabs(mPaddle.getDirectionX() + 1.f) < 0.00001f) {
       mPaddle.setDirectionX(0.f);
     }
     break;
   case SDLK_RIGHT:
-    if (std::fabs(mPaddle.getDirectionX() + 1.f) < 0.00001f) {
+    if (std::fabs(mPaddle.getDirectionX() - 1.f) < 0.00001f) {
       mPaddle.setDirectionX(0.f);
     }
     break;

@@ -1,13 +1,23 @@
 #include "game.h"
 #include "welcome_scene.h"
 
+#include <chrono>
 #include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
 
 using namespace breakout;
 
-Game::Game(int width, int height, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr), mState(State::NOT_INITED)
+Game::Game(int width, int height, const std::string& fontPath)
+  : mWindow(nullptr),
+    mRenderer(nullptr),
+    mFont(nullptr),
+    mScene(nullptr),
+    mState(State::NOT_INITED),
+    mFps(static_cast<long>(1000.f / 60.f)),
+    mCurrentTickMillis(0l),
+    mPreviousTickMillis(0l),
+    mDeltaAccumulator(0l)
 {
   // initialize all SDL2 framework systems.
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -104,7 +114,19 @@ int Game::run()
       }
     }
 
-    mScene->update();
+    // get the current milliseconds from the system.
+    using namespace std::chrono;
+    mCurrentTickMillis = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+
+    // calculate the delta between the current and previous tick milliseconds.
+    auto dt = (mCurrentTickMillis - mPreviousTickMillis);
+    mPreviousTickMillis = mCurrentTickMillis;
+
+    mDeltaAccumulator += dt;
+    while (mDeltaAccumulator >= mFps) {
+      mScene->update();
+      mDeltaAccumulator -= mFps;
+    }
 
     // clear the rendering context with the black color.
     SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xff);
