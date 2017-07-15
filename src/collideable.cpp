@@ -25,3 +25,29 @@ bool Collideable::collides(const Collideable& o) const
   auto y = std::abs(mCenterY - o.mCenterY) < (mExtentY + o.mExtentY);
   return x && y;
 }
+
+void Collideable::setX(int x)
+{
+  mCenterX -= (mRect.x - x);
+  Entity::setX(x);
+}
+
+void Collideable::setY(int y)
+{
+  mCenterY -= (mRect.y - y);
+  Entity::setY(y);
+}
+
+void Collideable::setWidth(int width)
+{
+  mExtentX = (width / 2);
+  mCenterX = (mRect.x + mExtentX);
+  Entity::setWidth(width);
+}
+
+void Collideable::setHeight(int height)
+{
+  mExtentY = (height / 2);
+  mCenterY = (mRect.y + mExtentY);
+  Entity::setHeight(height);
+}

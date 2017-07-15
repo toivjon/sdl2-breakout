@@ -52,12 +52,16 @@ void Paddle::update(float dt)
   if (courtScene != nullptr) {
     auto& leftWall = courtScene->getLeftWall();
     auto& rightWall = courtScene->getRightWall();
-    if (mDirectionX < 0.f && leftWall.collides(*this)) {
-      mRect.x = leftWall.getX() + leftWall.getExtentX() * 2;
-      mCenterX = mRect.x + mExtentX;
-    } else if (rightWall.collides(*this)) {
-      mRect.x = rightWall.getX() - mExtentX * 2;
-      mCenterX = mRect.x + mExtentX;
+    if (mDirectionX < 0.f) {
+      if (leftWall.collides(*this)) {
+        mRect.x = leftWall.getX() + leftWall.getExtentX() * 2;
+        mCenterX = mRect.x + mExtentX;
+      }
+    } else if (mDirectionX > 0.f) {
+      if (rightWall.collides(*this)) {
+        mRect.x = rightWall.getX() - mExtentX * 2;
+        mCenterX = mRect.x + mExtentX;
+      }
     }
   }
 }

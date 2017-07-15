@@ -25,10 +25,10 @@ namespace breakout
     int getWidth() const  { return mRect.w; }
     int getHeight() const { return mRect.h; }
 
-    void setX(int x)      { mRect.x = x; }
-    void setY(int y)      { mRect.y = y; }
-    void setWidth(int w)  { mRect.w = w; }
-    void setHeight(int h) { mRect.h = h; }
+    virtual void setX(int x)      { mRect.x = x; }
+    virtual void setY(int y)      { mRect.y = y; }
+    virtual void setWidth(int w)  { mRect.w = w; }
+    virtual void setHeight(int h) { mRect.h = h; }
   protected:
     Game&    mGame;
     SDL_Rect mRect;

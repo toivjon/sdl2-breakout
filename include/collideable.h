@@ -22,6 +22,12 @@ namespace breakout
 
     bool collides(const Collideable& o) const;
 
+    void setX(int x) override;
+    void setY(int y) override;
+
+    void setWidth(int width)   override;
+    void setHeight(int height) override;
+
     bool isEnabled() const { return mEnabled; }
     int getExtentX() const { return mExtentX; }
     int getExtentY() const { return mExtentY; }
