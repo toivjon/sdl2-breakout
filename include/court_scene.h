@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "drawable.h"
 #include "collideable.h"
+#include "paddle.h"
 #include "scene.h"
 
 namespace breakout
@@ -27,11 +28,18 @@ namespace breakout
     void enter() override;
     void keyDown(SDL_KeyboardEvent& event) override;
     void keyUp(SDL_KeyboardEvent& event) override;
+
+    const Collideable& getLeftWall() const  { return mLeftWall;   }
+    const Collideable& getRightWall() const { return mRightWall;  }
+    const Collideable& getTopWall() const   { return mTopWall;    }
+    const Ball& getBall() const             { return mBall;       }
+    const Paddle& getPaddle() const         { return mPaddle;     }
   private:
     Collideable mLeftWall;
     Collideable mRightWall;
     Collideable mTopWall;
     Ball        mBall;
+    Paddle      mPaddle;
   };
 }
 

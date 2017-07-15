@@ -42,6 +42,8 @@ namespace breakout
     SDL_Renderer& getRenderer() const { return *mRenderer; }
 
     SDL_Window* getWindow() const { return mWindow; }
+
+    std::shared_ptr<Scene> getScene() { return mScene; }
   private:
     SDL_Window*             mWindow;
     SDL_Renderer*           mRenderer;

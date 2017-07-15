@@ -104,11 +104,13 @@ int Game::run()
       }
     }
 
+    mScene->update();
+
     // clear the rendering context with the black color.
     SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xff);
     SDL_RenderClear(mRenderer);
 
-    mScene->update();
+    // render the scene on the buffer.
     mScene->render();
 
     // present the rendered buffer.

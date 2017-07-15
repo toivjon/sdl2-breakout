@@ -15,7 +15,8 @@ CourtScene::CourtScene(Game& game)
     mLeftWall(game),
     mRightWall(game),
     mTopWall(game),
-    mBall(game)
+    mBall(game),
+    mPaddle(game)
 {
   // query the window size from the window instance
   int windowWidth, windowHeight;
@@ -52,6 +53,14 @@ CourtScene::CourtScene(Game& game)
   mBall.setY(windowHalfHeight - slotHalfHeight);
   mBall.setWidth(slotHeight);
   mBall.setHeight(slotHeight);
+
+  // define props for the paddle.
+  mPaddle.setColor({ 0x00, 0xff, 0xff, 0xff });
+  mPaddle.setVelocity((static_cast<float>(windowHeight) / 1350.f));
+  mPaddle.setX(windowHalfWidth - slotHalfWidth);
+  mPaddle.setY(windowHeight - 100);
+  mPaddle.setWidth(slotWidth);
+  mPaddle.setHeight(slotHeight);
 }
 
 CourtScene::~CourtScene()
@@ -61,7 +70,9 @@ CourtScene::~CourtScene()
 
 void CourtScene::update()
 {
+  static const float FPS = (1000.f / 60.f);
   // ...
+  mPaddle.update(FPS);
 }
 
 void CourtScene::render()
@@ -71,6 +82,7 @@ void CourtScene::render()
   mRightWall.render(renderer);
   mTopWall.render(renderer);
   mBall.render(renderer);
+  mPaddle.render(renderer);
 }
 
 void CourtScene::enter()
@@ -80,10 +92,36 @@ void CourtScene::enter()
 
 void CourtScene::keyDown(SDL_KeyboardEvent& event)
 {
-  // ...
+  switch (event.keysym.sym) {
+  case SDLK_LEFT:
+    mPaddle.setDirectionX(-1.f);
+    break;
+  case SDLK_RIGHT:
+    mPaddle.setDirectionX(1.f);
+    break;
+  case SDLK_SPACE:
+    if (std::fabs(mBall.getVelocity()) < 0.00001f && !mBall.isVisible()) {
+      // TODO requires mBall.initial_velocity mBall.setVelocity()
+      mBall.setVisible(true);
+    }
+    break;
+  }
 }
 
 void CourtScene::keyUp(SDL_KeyboardEvent& event)
 {
-  // ...
+  switch (event.keysym.sym) {
+  case SDLK_LEFT:
+    if (std::fabs(mPaddle.getDirectionX() - 1.f) < 0.00001f) {
+      mPaddle.setDirectionX(0.f);
+    }
+    break;
+  case SDLK_RIGHT:
+    if (std::fabs(mPaddle.getDirectionX() + 1.f) < 0.00001f) {
+      mPaddle.setDirectionX(0.f);
+    }
+    break;
+  case SDLK_SPACE:
+    break;
+  }
 }

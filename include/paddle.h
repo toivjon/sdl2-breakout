@@ -12,6 +12,7 @@ namespace breakout
 
     void shrink();
     void reset();
+    void update(float dt);
   private:
     int mOriginalWidth;
   };
