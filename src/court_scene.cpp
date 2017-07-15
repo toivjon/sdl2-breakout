@@ -15,10 +15,14 @@ CourtScene::CourtScene(Game& game) : Scene(game)
   // query the window size from the window instance
   int windowWidth, windowHeight;
   SDL_GetWindowSize(mGame.getWindow(), &windowWidth, &windowHeight);
+  auto windowHalfWidth = (windowWidth / 2);
+  auto windowHalfHeight = (windowHeight / 2);
 
   // precalculate some relative size definitions.
   auto slotWidth = (windowWidth / SLOT_WIDTH_DIVISOR);
   auto slotHeight = (windowWidth / SLOT_HEIGHT_DIVISOR);
+  auto slotHalfWidth = (slotWidth / 2);
+  auto slotHalfHeight = (slotHeight / 2);
   
   // define left wall props.
   mLeftWall.setX(0);
@@ -37,6 +41,12 @@ CourtScene::CourtScene(Game& game) : Scene(game)
   mTopWall.setY(0);
   mTopWall.setWidth(windowWidth);
   mTopWall.setHeight(slotHeight);
+
+  // define props for the ball.
+  mBall.setX(windowHalfWidth - slotHalfHeight);
+  mBall.setY(windowHalfHeight - slotHalfHeight);
+  mBall.setWidth(slotHeight);
+  mBall.setHeight(slotHeight);
 }
 
 CourtScene::~CourtScene()
@@ -55,6 +65,7 @@ void CourtScene::render()
   mLeftWall.render(renderer);
   mRightWall.render(renderer);
   mTopWall.render(renderer);
+  mBall.render(renderer);
 }
 
 void CourtScene::enter()

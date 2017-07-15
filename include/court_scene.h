@@ -1,6 +1,7 @@
 #ifndef BREAKOUT_COURT_SCENE_H
 #define BREAKOUT_COURT_SCENE_H
 
+#include "ball.h"
 #include "entity.h"
 #include "drawable.h"
 #include "collideable.h"
@@ -30,6 +31,7 @@ namespace breakout
     Collideable mLeftWall;
     Collideable mRightWall;
     Collideable mTopWall;
+    Ball        mBall;
   };
 }
 
