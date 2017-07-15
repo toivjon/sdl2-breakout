@@ -7,7 +7,7 @@
 
 using namespace breakout;
 
-Game::Game(int height, int width, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr), mState(State::NOT_INITED)
+Game::Game(int width, int height, const std::string& fontPath) : mWindow(nullptr), mRenderer(nullptr), mFont(nullptr), mScene(nullptr), mState(State::NOT_INITED)
 {
   // initialize all SDL2 framework systems.
   if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {

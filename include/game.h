@@ -21,7 +21,7 @@ namespace breakout
     enum class PlayMode { SINGLE_PLAYER, TWO_PLAYERS };
 
     Game() = delete;
-    Game(int height, int width, const std::string& fontPath);
+    Game(int width, int height, const std::string& fontPath);
     Game(const Game&) = delete;
     Game(Game&&) = delete;
 
