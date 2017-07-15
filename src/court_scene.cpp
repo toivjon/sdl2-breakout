@@ -10,7 +10,12 @@ using namespace breakout;
 // the divisor of the slot height related to window client area width.
 #define SLOT_HEIGHT_DIVISOR 45
 
-CourtScene::CourtScene(Game& game) : Scene(game)
+CourtScene::CourtScene(Game& game)
+  : Scene(game),
+    mLeftWall(game),
+    mRightWall(game),
+    mTopWall(game),
+    mBall(game)
 {
   // query the window size from the window instance
   int windowWidth, windowHeight;

@@ -52,9 +52,9 @@ WelcomeScene::WelcomeScene(Game& game)
   // assign vertical positions for each texture.
   int slotHeight = (windowHeight / 10);
   mTopicTextPosition.y = slotHeight;
-  mControlTextPosition.y = (2.5 * slotHeight);
+  mControlTextPosition.y = static_cast<int>(2.5 * slotHeight);
   mSpacebarTextPosition.y = (3 * slotHeight);
-  mLeftArrowTextPosition.y = (3.5 * slotHeight);
+  mLeftArrowTextPosition.y = static_cast<int>(3.5 * slotHeight);
   mRightArrowTextPosition.y = (4 * slotHeight);
   mOnePlayerGameTextPosition.y = (6 * slotHeight);
   mTwoPlayerGameTextPosition.y = (7 * slotHeight);

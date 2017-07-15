@@ -4,17 +4,13 @@
 
 using namespace breakout;
 
-Collideable::Collideable() : Collideable({ 0,0,0,0 })
-{
-  // ...
-}
-
-Collideable::Collideable(const SDL_Rect& rect) : Drawable(rect),
-  mEnabled(true),
-  mExtentX(rect.w / 2),
-  mExtentY(rect.h / 2),
-  mCenterX(rect.x - rect.w),
-  mCenterY(rect.y - rect.h)
+Collideable::Collideable(Game& game) 
+  : Drawable(game),
+    mEnabled(true),
+    mExtentX(0),
+    mExtentY(0),
+    mCenterX(0),
+    mCenterY(0)
 {
   // ..
 }

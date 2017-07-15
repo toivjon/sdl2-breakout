@@ -8,8 +8,7 @@ namespace breakout
   class Ball final : public Movable
   {
   public:
-    Ball();
-    Ball(const SDL_Rect& rect);
+    Ball(Game& game);
   private:
     int mInitialVelocity;
     int mVelocityIncrementStep;

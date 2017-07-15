@@ -1,17 +1,11 @@
 #include "drawable.h"
 
-#include <memory>
-
 using namespace breakout;
 
-Drawable::Drawable() : Drawable({ 0,0,0,0 })
-{
-  // ...
-}
-
-Drawable::Drawable(const SDL_Rect& rect) : Entity(rect),
-  mColor({ 0xff, 0xff, 0xff, 0xff }),
-  mVisible(true)
+Drawable::Drawable(Game& game)
+  : Entity(game),
+    mColor({ 0xff, 0xff, 0xff, 0xff }),
+    mVisible(true)
 {
   // ...
 }

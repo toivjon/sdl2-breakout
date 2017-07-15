@@ -1,3 +1,10 @@
+/*! The root abstraction for all entities within the Breakout game.
+ * 
+ *  This entity encapsulates the functionality and attributes for all entities
+ *  that are used within the game application. In this Breakout game version we
+ *  require each entity to have at least 2d-position and size. In addition, we
+ *  also want that each entity has an injected reference to root game instance.
+ */
 #ifndef BREAKOUT_ENTITY_H
 #define BREAKOUT_ENTITY_H
 
@@ -5,11 +12,11 @@
 
 namespace breakout
 {
+  class Game;
   class Entity
   {
   public:
-    Entity() : Entity({ 0,0,0,0 }) {}
-    Entity(const SDL_Rect& rect) : mRect(rect) {}
+    Entity(Game& game) : mGame(game), mRect({ 0, 0, 0, 0}) {}
 
     virtual ~Entity() = default;
 
@@ -23,6 +30,7 @@ namespace breakout
     void setWidth(int w)  { mRect.w = w; }
     void setHeight(int h) { mRect.h = h; }
   protected:
+    Game&    mGame;
     SDL_Rect mRect;
   };
 }

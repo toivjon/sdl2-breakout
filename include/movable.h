@@ -1,3 +1,11 @@
+/*! An abstraction class for all movable entities within the Breakout game.
+ *
+ *  This class encapsulates the logic and functionality required for entities 
+ *  to act as moving entities in the game. It provides a logic to define the
+ *  moving direction and a simple velocity to be used for the movement. It is
+ *  also an extension to collideable entities, which makes all moving entites
+ *  to be capable to interact with all other collideable entities.
+ */
 #ifndef BREAKOUT_MOVABLE_H
 #define BREAKOUT_MOVABLE_H
 
@@ -8,8 +16,7 @@ namespace breakout
   class Movable : public Collideable
   {
   public:
-    Movable();
-    Movable(const SDL_Rect& rect);
+    Movable(Game& game);
 
     virtual ~Movable() = default;
 
@@ -27,7 +34,6 @@ namespace breakout
     float mDirectionY;
     float mVelocity;
   };
-// ...
 }
 
 #endif
