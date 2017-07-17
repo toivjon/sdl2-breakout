@@ -20,7 +20,7 @@ namespace breakout
 
     virtual ~Drawable() = default;
 
-    void render(SDL_Renderer& renderer);
+    virtual void render(SDL_Renderer& renderer);
 
     bool isVisible() const              { return mVisible;  }
     const SDL_Color& getColor() const   { return mColor;    }

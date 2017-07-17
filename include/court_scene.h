@@ -2,11 +2,14 @@
 #define BREAKOUT_COURT_SCENE_H
 
 #include "ball.h"
+#include "digit.h"
 #include "entity.h"
 #include "drawable.h"
 #include "collideable.h"
 #include "paddle.h"
 #include "scene.h"
+
+#include <vector>
 
 namespace breakout
 {
@@ -35,11 +38,14 @@ namespace breakout
     const Ball& getBall() const             { return mBall;       }
     const Paddle& getPaddle() const         { return mPaddle;     }
   private:
-    Collideable mLeftWall;
-    Collideable mRightWall;
-    Collideable mTopWall;
-    Ball        mBall;
-    Paddle      mPaddle;
+    Collideable                     mLeftWall;
+    Collideable                     mRightWall;
+    Collideable                     mTopWall;
+    Ball                            mBall;
+    Paddle                          mPaddle;
+    Digit                           mPlayerIndexDigit;
+    Digit                           mPlayerBallIndexDigit;
+    std::vector<std::vector<Digit>> mPlayerScoreDigits;
   };
 }
 
