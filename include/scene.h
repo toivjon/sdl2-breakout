@@ -20,7 +20,7 @@ namespace breakout
 
     virtual ~Scene() {}
 
-    virtual void update() {}
+    virtual void update(float dt) {}
     virtual void render() {}
     virtual void enter() {}
     virtual void exit() {}

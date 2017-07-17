@@ -8,13 +8,18 @@
 
 using namespace breakout;
 
+inline unsigned long currentMillis()
+{
+  using namespace std::chrono;
+  return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
+
 Game::Game(int width, int height, const std::string& fontPath)
   : mWindow(nullptr),
     mRenderer(nullptr),
     mFont(nullptr),
     mScene(nullptr),
     mState(State::NOT_INITED),
-    mFps(static_cast<long>(1000.f / 60.f)),
     mCurrentTickMillis(0l),
     mPreviousTickMillis(0l),
     mDeltaAccumulator(0l)
@@ -39,7 +44,7 @@ Game::Game(int width, int height, const std::string& fontPath)
   }
 
   // create renderer for the application window.
-  mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+  mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (mRenderer == nullptr) {
     std::cerr << "Unable to create SDL renderer: " << SDL_GetError() << std::endl;
     return;
@@ -98,6 +103,7 @@ int Game::run()
 
   SDL_Event event;
   mState = State::RUNNING;
+  mPreviousTickMillis = currentMillis();
   while (mState == State::RUNNING) {
     // poll and handle events from the SDL.
     while (SDL_PollEvent(&event) != 0) {
@@ -114,18 +120,17 @@ int Game::run()
       }
     }
 
-    // get the current milliseconds from the system.
-    using namespace std::chrono;
-    mCurrentTickMillis = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-
     // calculate the delta between the current and previous tick milliseconds.
+    mCurrentTickMillis = currentMillis();
     auto dt = (mCurrentTickMillis - mPreviousTickMillis);
     mPreviousTickMillis = mCurrentTickMillis;
-
+    
+    // update game logics with a fixed framerate.
     mDeltaAccumulator += dt;
-    while (mDeltaAccumulator >= mFps) {
-      mScene->update();
-      mDeltaAccumulator -= mFps;
+    static const auto FPS = (1000l / 60l);
+    if (mDeltaAccumulator >= FPS) {
+      mScene->update(FPS);
+      mDeltaAccumulator -= FPS;
     }
 
     // clear the rendering context with the black color.

@@ -68,11 +68,10 @@ CourtScene::~CourtScene()
   // ...
 }
 
-void CourtScene::update()
+void CourtScene::update(float dt)
 {
-  static const float FPS = (1000.f / 60.f);
   // ...
-  mPaddle.update(FPS);
+  mPaddle.update(dt);
 }
 
 void CourtScene::render()

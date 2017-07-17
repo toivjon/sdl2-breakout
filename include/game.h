@@ -51,7 +51,6 @@ namespace breakout
     std::shared_ptr<Scene>  mScene;
     State                   mState;
     PlayMode                mPlayMode;
-    unsigned long           mFps;
     unsigned long           mCurrentTickMillis;
     unsigned long           mPreviousTickMillis;
     unsigned long           mDeltaAccumulator;

@@ -20,7 +20,7 @@ namespace breakout
 
     ~WelcomeScene();
 
-    void update() override;
+    void update(float dt) override;
     void render() override;
     void enter() override;
     void exit() override;

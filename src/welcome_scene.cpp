@@ -75,7 +75,7 @@ WelcomeScene::~WelcomeScene()
   RELEASE_TEXTURE(mTwoPlayerGameText);
 }
 
-void WelcomeScene::update()
+void WelcomeScene::update(float dt)
 {
   // ...
 }

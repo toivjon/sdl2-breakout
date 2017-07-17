@@ -23,7 +23,7 @@ namespace breakout
 
     ~CourtScene();
 
-    void update() override;
+    void update(float dt) override;
     void render() override;
     void enter() override;
     void keyDown(SDL_KeyboardEvent& event) override;
