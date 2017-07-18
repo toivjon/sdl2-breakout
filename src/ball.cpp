@@ -171,37 +171,37 @@ void Ball::update(float dt)
     // check whether the ball hits with the court bricks.
     for (auto& brick : bricks) {
       if (collides(brick)) {
-        // TODO check for the end-game-mode.
+        if (mEndGameMode == false) {
+          // disable the brick from the level.
+          brick.setVisible(false);
+          brick.setEnabled(false);
 
-        // disable the brick from the level.
-        brick.setVisible(false);
-        brick.setEnabled(false);
+          // perform actions base on the color of the brick we just hit.
+          if (equals(brick.getColor(), CourtScene::BRICKS_1_FILL_STYLE)) {
+            courtScene->addPlayerScore(player, 1);
+          } else if (equals(brick.getColor(), CourtScene::BRICKS_2_FILL_STYLE)) {
+            courtScene->addPlayerScore(player, 3);
+          } else if (equals(brick.getColor(), CourtScene::BRICKS_3_FILL_STYLE)) {
+            courtScene->addPlayerScore(player, 5);
+            if (mOrangeBricksHit == false) {
+              incrementVelocity();
+              mOrangeBricksHit = true;
+            }
+          } else if (equals(brick.getColor(), CourtScene::BRICKS_4_FILL_STYLE)) {
+            courtScene->addPlayerScore(player, 7);
+            if (mRedBricksHit == false) {
+              incrementVelocity();
+              mRedBricksHit = true;
+            }
+          }
 
-        // perform actions base on the color of the brick we just hit.
-        if (equals(brick.getColor(), CourtScene::BRICKS_1_FILL_STYLE)) {
-          courtScene->addPlayerScore(player, 1);
-        } else if (equals(brick.getColor(), CourtScene::BRICKS_2_FILL_STYLE)) {
-          courtScene->addPlayerScore(player, 3);
-        } else if (equals(brick.getColor(), CourtScene::BRICKS_3_FILL_STYLE)) {
-          courtScene->addPlayerScore(player, 5);
-          if (mOrangeBricksHit == false) {
-            incrementVelocity();
-            mOrangeBricksHit = true;
-          }
-        } else if (equals(brick.getColor(), CourtScene::BRICKS_4_FILL_STYLE)) {
-          courtScene->addPlayerScore(player, 7);
-          if (mRedBricksHit == false) {
-            incrementVelocity();
-            mRedBricksHit = true;
-          }
+          // add a hit into the hit counter.
+          incrementHitCount();
+
+          // TODO calculate the amount of destroyed bricks.
+          // TODO check whether to end the scene / game.
+
         }
-
-        // add a hit into the hit counter.
-        incrementHitCount();
-
-        // TODO calculate the amount of destroyed bricks.
-        // TODO check whether to end the scene / game.
-
         // change the ball state to require a paddle of wall hit next.
         mState = State::BRICK_HIT;
 
