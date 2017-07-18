@@ -16,13 +16,7 @@ namespace breakout
 	class WelcomeScene final : public Scene
 	{
   public:
-    WelcomeScene() = delete;
     WelcomeScene(Game& game);
-    WelcomeScene(const WelcomeScene&) = delete;
-    WelcomeScene(WelcomeScene&&) = delete;
-
-    WelcomeScene& operator=(const WelcomeScene&) = delete;
-    WelcomeScene& operator=(WelcomeScene&&) = delete;
 
     ~WelcomeScene();
 
