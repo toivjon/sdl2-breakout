@@ -5,6 +5,8 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <cstdlib>
+#include <ctime>
 
 using namespace breakout;
 
@@ -56,6 +58,9 @@ Game::Game(int width, int height, const std::string& fontPath)
     std::cerr << "Unable to load font: " << TTF_GetError() << std::endl;
     return;
   }
+
+  // initialize random.
+  srand(time(NULL));
 
   // check that the game gets inited state flag.
   mState = State::INITED;

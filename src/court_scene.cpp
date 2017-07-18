@@ -118,8 +118,8 @@ CourtScene::~CourtScene()
 
 void CourtScene::update(float dt)
 {
-  // ...
   mPaddle.update(dt);
+  mBall.update(dt);
 }
 
 void CourtScene::render()
@@ -160,7 +160,7 @@ void CourtScene::keyDown(SDL_KeyboardEvent& event)
     break;
   case SDLK_SPACE:
     if (std::fabs(mBall.getVelocity()) < 0.00001f && !mBall.isVisible()) {
-      // TODO requires mBall.initial_velocity mBall.setVelocity()
+      mBall.setVelocity(mBall.getInitialVelocity());
       mBall.setVisible(true);
     }
     break;
