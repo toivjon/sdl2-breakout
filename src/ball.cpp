@@ -241,9 +241,6 @@ void Ball::update(float dt)
     }
 
   }
-
-  // TODO
-
   // move the ball.
   move(dt);
 }
