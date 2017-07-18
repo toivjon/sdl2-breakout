@@ -1,3 +1,11 @@
+/*! A class that presents a single digit within the Breakout game.
+ *
+ *  Digits are used to show three kinds of information for the user in the
+ *  Breakout game; player index, the index of the current ball and the player
+ *  specific scores. Each digit may contain a value from the range [0..9] and
+ *  may also be activated to perform a blink that is commonly used to emphasise
+ *  the digit(s) that have just been updated.
+ */
 #ifndef BREAKOUT_DIGIT_H
 #define BREAKOUT_DIGIT_H
 

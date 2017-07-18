@@ -18,8 +18,6 @@ namespace breakout
   public:
     Drawable(Game& game);
 
-    virtual ~Drawable() = default;
-
     virtual void render(SDL_Renderer& renderer);
 
     bool isVisible() const              { return mVisible;  }
