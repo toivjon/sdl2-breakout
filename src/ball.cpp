@@ -29,6 +29,7 @@ inline std::array<float, 2> createRandomInitDirection()
   case 1:
     return normalize({ 0.5f, 0.5f });
   case 2:
+  default:
     return normalize({ -0.5f, 0.5f });
   }
 }
