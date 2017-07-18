@@ -55,9 +55,11 @@ namespace breakout
     int getPlayerLevel(Player player) const { return mPlayerLevel[(int)player]; }
     std::vector<Collideable>& getBricks(Player player, int level) { return mPlayerBricks[(int)player][level]; }
     int getPlayerBallIndex(Player player) const { return mPlayerBallIndex[(int)player]; }
+    int getPlayerLevelCount(Player player) const { return mPlayerBricks[(int)player].size(); }
 
     void setActivePlayer(Player activePlayer) { mActivePlayer = activePlayer; }
     void setPlayerLevel(Player player, int level) { mPlayerLevel[(int)player] = level; }
+    void setPlayerBallIndex(Player player, int index) { mPlayerBallIndex[(int)player] = index; }
 
     void addPlayerScore(Player player, int amount);
     void addPlayerLevel(std::vector<Collideable>& level, Player player);

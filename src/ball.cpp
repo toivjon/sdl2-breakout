@@ -198,10 +198,39 @@ void Ball::update(float dt)
           // add a hit into the hit counter.
           incrementHitCount();
 
-          // TODO calculate the amount of destroyed bricks.
-          // TODO check whether to end the scene / game.
+          // calculate the amount of destroyed bricks.
+          auto destroyedBricks = 0u;
+          for (auto& brick : bricks) {
+            if (brick.isVisible() == false) {
+              destroyedBricks++;
+            }
+          }
 
+          // check whether the end of this level has been reached.
+          // this requires that the player just destroyed the last brick.
+          // we need to goto next level or check whether to end the game.
+          if (destroyedBricks == bricks.size()) {
+            courtScene->resetBallAndPaddle();
+            if ((courtScene->getPlayerLevel(player) + 1) >= courtScene->getPlayerLevelCount(player)) {
+              courtScene->setPlayerBallIndex(player, 4);
+            } else {
+              courtScene->setPlayerLevel(player, courtScene->getPlayerLevel(player) + 1);
+            }
+            if (mGame.getPlayMode() == Game::PlayMode::SINGLE_PLAYER) {
+              if (courtScene->getPlayerBallIndex(player) > 3) {
+                courtScene->endGame();
+              }
+            } else {
+              if (courtScene->getPlayerBallIndex(CourtScene::Player::PLAYER_1) > 3
+                && courtScene->getPlayerBallIndex(CourtScene::Player::PLAYER_2)) {
+                courtScene->endGame();
+              } else {
+                courtScene->switchPlayer();
+              }
+            }
+          }
         }
+
         // change the ball state to require a paddle of wall hit next.
         mState = State::BRICK_HIT;
 
