@@ -27,7 +27,7 @@ void Paddle::shrink()
 void Paddle::reset()
 {
   // restore the original width if necessary.
-  if (mOriginalWidth != mRect.w) {
+  if (mOriginalWidth != 0 && mOriginalWidth != mRect.w) {
     mRect.w = mOriginalWidth;
     mExtentX = (mRect.w / 2);
   }
