@@ -13,8 +13,6 @@ Movable::Movable(Game& game)
   // ...
 }
 
-#include <iostream>
-
 void Movable::move(float dt)
 {
   // define a suitable epsilon for float comparisons.
