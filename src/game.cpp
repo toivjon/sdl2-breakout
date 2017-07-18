@@ -13,7 +13,7 @@ using namespace breakout;
 inline unsigned long currentMillis()
 {
   using namespace std::chrono;
-  return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+  return (unsigned long) duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
 Game::Game(int width, int height, const std::string& fontPath)
@@ -60,7 +60,7 @@ Game::Game(int width, int height, const std::string& fontPath)
   }
 
   // initialize random.
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
 
   // check that the game gets inited state flag.
   mState = State::INITED;
@@ -134,7 +134,7 @@ int Game::run()
     mDeltaAccumulator += dt;
     static const auto FPS = (1000l / 60l);
     if (mDeltaAccumulator >= FPS) {
-      mScene->update(FPS);
+      mScene->update(static_cast<float>(FPS));
       mDeltaAccumulator -= FPS;
     }
 
