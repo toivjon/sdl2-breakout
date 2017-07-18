@@ -61,6 +61,7 @@ namespace breakout
 
   private:
     void refreshScoreDigits(Player player);
+    void blinkScoreDigits(Player player);
   private:
     Player             mActivePlayer;
     std::array<int, 2> mPlayerLevel;

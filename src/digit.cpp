@@ -20,9 +20,16 @@ const auto VLINE_RIGHT_BOTTOM = 3;
 // The index for the center vertical line.
 const auto VLINE_CENTER = 4;
 
+// The amount of blinks the digit does when blink is activated.
+const auto BLINK_COUNT = 5;
+// The amount of ticks (updates) to wait between each blink.
+const auto BLINK_INTERVAL = 10;
+
 Digit::Digit(Game& game) 
   : Drawable(game),
-    mValue(0)
+    mValue(0),
+    mBlinksLeft(0),
+    mBlinkTimer(0)
 {
   refresh();
 }
@@ -160,4 +167,39 @@ void Digit::refresh()
   mVLines[VLINE_RIGHT_TOP] = { x + w - thickness, y, thickness + 1, halfHeight + 1 };
   mVLines[VLINE_RIGHT_BOTTOM] = { x + w - thickness, y + halfHeight, thickness + 1, halfHeight + 1 };
   mVLines[VLINE_CENTER] = { x + w / 2 - thickness, y, thickness, h };
+}
+
+void Digit::setBlink(bool active)
+{
+  if (active == false) {
+    mBlinksLeft = 0;
+    mBlinkTimer = 0;
+    setVisible(true);
+  } else {
+    mBlinksLeft = BLINK_COUNT;
+    mBlinkTimer = 0;
+  }
+}
+
+void Digit::update(float dt)
+{
+  if (mBlinksLeft > 0) {
+    mBlinkTimer--;
+    if (isVisible() == true) {
+      // number is currently shown, so check whether it is time to hide it.
+      if (mBlinkTimer <= 0) {
+        setVisible(false);
+        mBlinkTimer = BLINK_INTERVAL;
+      }
+    } else {
+      // number is currently hidden, so check whether it is time to show it.
+      if (mBlinkTimer <= 0) {
+        setVisible(true);
+        mBlinksLeft--;
+        if (mBlinksLeft > 0) {
+          mBlinkTimer = BLINK_INTERVAL;
+        }
+      }
+    }
+  }
 }

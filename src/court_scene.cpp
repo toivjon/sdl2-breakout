@@ -187,6 +187,16 @@ void CourtScene::update(float dt)
 {
   mPaddle.update(dt);
   mBall.update(dt);
+
+  // update score digits for both players.
+  mPlayerScoreDigits[0][0].update(dt);
+  mPlayerScoreDigits[0][1].update(dt);
+  mPlayerScoreDigits[0][2].update(dt);
+  mPlayerScoreDigits[0][3].update(dt);
+  mPlayerScoreDigits[1][0].update(dt);
+  mPlayerScoreDigits[1][1].update(dt);
+  mPlayerScoreDigits[1][2].update(dt);
+  mPlayerScoreDigits[1][3].update(dt);
 }
 
 void CourtScene::render()
@@ -262,7 +272,7 @@ void CourtScene::keyUp(SDL_KeyboardEvent& event)
 void CourtScene::addPlayerScore(Player player, int amount)
 {
   mPlayerScore[(int)player] += amount;
-  // TODO start blinking score digits.
+  blinkScoreDigits(player);
   refreshScoreDigits(player);
 }
 
@@ -281,4 +291,15 @@ void CourtScene::refreshScoreDigits(Player player)
     auto value = std::stoi(scoreString.substr((scoreString.length() - 1) - i, 1));
     mPlayerScoreDigits[(int)player][3 - i].setValue(value);
   }
+}
+
+void CourtScene::blinkScoreDigits(Player player)
+{
+  auto playerIdx = (int)player;
+  if (mPlayerScore[playerIdx] > 999) {
+    mPlayerScoreDigits[playerIdx][0].setBlink(true);
+  }
+  mPlayerScoreDigits[playerIdx][1].setBlink(true);
+  mPlayerScoreDigits[playerIdx][2].setBlink(true);
+  mPlayerScoreDigits[playerIdx][3].setBlink(true);
 }

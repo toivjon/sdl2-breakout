@@ -21,6 +21,10 @@ namespace breakout
 
     void refresh();
 
+    void setBlink(bool active);
+
+    void update(float dt);
+
     void setValue(int value) { mValue = value; }
 
     int getValue() const { return mValue; }
@@ -28,6 +32,8 @@ namespace breakout
     int                   mValue;
     std::vector<SDL_Rect> mHLines;
     std::vector<SDL_Rect> mVLines;
+    int                   mBlinksLeft;
+    int                   mBlinkTimer;
   };
 }
 
