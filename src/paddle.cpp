@@ -43,25 +43,28 @@ void Paddle::reset()
 
 void Paddle::update(float dt)
 {
+  // get a shared pointer to current court scene.
+  auto scene = mGame.getScene();
+  auto courtScene = std::dynamic_pointer_cast<CourtScene>(scene);
+  if (courtScene == nullptr) {
+    return;
+  }
+
   // ensure movement (if any).
   move(dt);
 
   // check whether the paddle collides with the left or right wall.
-  auto scene = mGame.getScene();
-  auto courtScene = static_cast<CourtScene*>(scene.get());
-  if (courtScene != nullptr) {
-    auto& leftWall = courtScene->getLeftWall();
-    auto& rightWall = courtScene->getRightWall();
-    if (mDirectionX < 0.f) {
-      if (leftWall.collides(*this)) {
-        mRect.x = leftWall.getX() + leftWall.getExtentX() * 2;
-        mCenterX = mRect.x + mExtentX;
-      }
-    } else if (mDirectionX > 0.f) {
-      if (rightWall.collides(*this)) {
-        mRect.x = rightWall.getX() - mExtentX * 2;
-        mCenterX = mRect.x + mExtentX;
-      }
+  if (mDirectionX < 0.f) {
+    const auto& leftWall = courtScene->getLeftWall();
+    if (leftWall.collides(*this)) {
+      mRect.x = leftWall.getX() + leftWall.getExtentX() * 2;
+      mCenterX = mRect.x + mExtentX;
+    }
+  } else if (mDirectionX > 0.f) {
+    const auto& rightWall = courtScene->getRightWall();
+    if (rightWall.collides(*this)) {
+      mRect.x = rightWall.getX() - mExtentX * 2;
+      mCenterX = mRect.x + mExtentX;
     }
   }
 }
