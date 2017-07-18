@@ -93,7 +93,7 @@ void Ball::update(float dt)
     setDirectionY(-getDirectionY());
     mState = State::NORMAL;
     incrementHitCount();
-    // TODO shrink the paddle.
+    courtScene->getPaddle().shrink();
   }
 
   // check whether the ball collides with the left wall.

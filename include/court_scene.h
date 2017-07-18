@@ -51,6 +51,8 @@ namespace breakout
     const Paddle& getPaddle() const                   { return mPaddle;               }
     const Collideable& getOutOfBoundsDetector() const { return mOutOfBoundsDetector;  }
 
+    Paddle& getPaddle() { return mPaddle; }
+
     Player getActivePlayer() const { return mActivePlayer; }
     int getPlayerLevel(Player player) const { return mPlayerLevel[(int)player]; }
     std::vector<Collideable>& getBricks(Player player, int level) { return mPlayerBricks[(int)player][level]; }
