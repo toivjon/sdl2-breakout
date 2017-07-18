@@ -1,3 +1,9 @@
+/*! The welcoming scene for the Breakout game.
+ *
+ *  This scene is the main scene which will be shown to users when they open
+ *  the game. Our implementation contains a simple view where users see the 
+ *  name of the game and an instructions about how to start the game.
+ */
 #ifndef BREAKOUT_WELCOME_SCENE_H
 #define BREAKOUT_WELCOME_SCENE_H
 
