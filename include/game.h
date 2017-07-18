@@ -1,3 +1,17 @@
+/*! A simple and traditional Breakout game implementation for the SDL2.
+ *
+ * This game is a SDL2 version of the old and legendary Breakout game, which
+ * was release in 1976 by Atari Inc. This version uses the 2D drawing context
+ * from the SDL2 framwork to draw items on the screen. Game also uses two
+ * different scenes, which also act as the states of the game. These scenes
+ * are following:
+ *
+ * 1. Welcome
+ * 2. Court
+ *
+ * Welcome scene contains the welcoming message and a selection whether to play
+ * a single/multiplayer game and the court scene has the game implementation.
+ */
 #ifndef BREAKOUT_GAME_H
 #define BREAKOUT_GAME_H
 
