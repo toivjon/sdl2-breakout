@@ -1,3 +1,11 @@
+/*! An abstraction for all scenes in the Breakout game.
+ *
+ *  This class acts as an abstraction for all scenes in our Breakout game. Our
+ *  implementation contains only two different scenes that inherit from this
+ *  base class. Scenes also act as a high abstraction game states, which have a
+ *  enter and exit functionality that is executed automatically when the scene
+ *  is being entered or exited from.
+ */
 #ifndef BREAKOUT_SCENE_H
 #define BREAKOUT_SCENE_H
 
