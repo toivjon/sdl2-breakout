@@ -23,7 +23,7 @@ namespace breakout
     static const SDL_Color BRICKS_4_FILL_STYLE;
 
     /** An enumeration for the currently active player index. */
-    enum class ActivePlayer : int {
+    enum class Player : int {
       PLAYER_1 = 0,
       PLAYER_2 = 1
     };
@@ -50,14 +50,18 @@ namespace breakout
     const Ball& getBall() const             { return mBall;       }
     const Paddle& getPaddle() const         { return mPaddle;     }
 
-    ActivePlayer getActivePlayer() const { return mActivePlayer; }
-    int getPlayerLevel(ActivePlayer player) const { return mPlayerLevel[(int)player]; }
+    Player getActivePlayer() const { return mActivePlayer; }
+    int getPlayerLevel(Player player) const { return mPlayerLevel[(int)player]; }
+    std::vector<Collideable>& getBricks(Player player, int level) { return mPlayerBricks[(int)player][level]; }
 
-    void setActivePlayer(ActivePlayer activePlayer) { mActivePlayer = activePlayer; }
-    void setPlayerLevel(ActivePlayer player, int level) { mPlayerLevel[(int)player] = level; }
+    void setActivePlayer(Player activePlayer) { mActivePlayer = activePlayer; }
+    void setPlayerLevel(Player player, int level) { mPlayerLevel[(int)player] = level; }
+
+    void addPlayerScore(Player player, int amount);
   private:
-    ActivePlayer       mActivePlayer;
+    Player             mActivePlayer;
     std::array<int, 2> mPlayerLevel;
+    std::array<int, 2> mPlayerScore;
 
     Collideable                             mLeftWall;
     Collideable                             mRightWall;

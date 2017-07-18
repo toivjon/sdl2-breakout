@@ -15,6 +15,11 @@ inline std::array<float, 2> normalize(const std::array<float, 2>& value)
   return { value[0] / length, value[1] / length };
 }
 
+// A helper utility to check whether the two SDL colors are same.
+inline bool equals(const SDL_Color& c1, const SDL_Color& c2) {
+  return (c1.a == c2.a && c1.b == c2.b && c1.g == c2.g && c1.r == c2.r);
+}
+
 // A helper utility to construct a new initial direction for the ball.
 inline std::array<float, 2> createRandomInitDirection()
 {
@@ -32,7 +37,10 @@ Ball::Ball(Game& game)
   : Movable(game),
     mInitialVelocity(0),
     mVelocityIncrementStep(0),
-    mState(State::NORMAL)
+    mState(State::NORMAL),
+    mHitCount(0),
+    mOrangeBricksHit(false),
+    mRedBricksHit(false)
 {
   // query the window size from the window instance
   int windowWidth, windowHeight;
@@ -64,6 +72,9 @@ void Ball::reset()
 
   mState = State::NORMAL;
   setVisible(false);
+  mHitCount = 0;
+  mOrangeBricksHit = false;
+  mRedBricksHit = false;
 }
 
 void Ball::update(float dt)
@@ -79,7 +90,7 @@ void Ball::update(float dt)
   if (mDirectionY < 0.f && collides(topWall)) {
     setDirectionY(-getDirectionY());
     mState = State::NORMAL;
-    // TODO increment hit count.
+    incrementHitCount();
     // TODO shrink the paddle.
   }
 
@@ -88,7 +99,7 @@ void Ball::update(float dt)
   if (mDirectionX < 0.f && collides(leftWall)) {
     setDirectionX(-getDirectionX());
     mState = State::NORMAL;
-    // TODO increment hit count.
+    incrementHitCount();
   }
 
   // check whether the ball collides with the right wall.
@@ -96,7 +107,7 @@ void Ball::update(float dt)
   if (mDirectionX > 0.f && collides(rightWall)) {
     setDirectionX(-getDirectionX());
     mState = State::NORMAL;
-    // TODO increment hit count.
+    incrementHitCount();
   }
 
   // check whether the ball collides with the paddle.
@@ -104,7 +115,7 @@ void Ball::update(float dt)
   if (mDirectionY > 0.f && collides(paddle)) {
     auto xDiff = static_cast<float>(mCenterX - paddle.getCenterX());
     mState = State::NORMAL;
-    // TODO increment the hit count.
+    incrementHitCount();
 
     auto newDirection = std::array<float, 2>();
     newDirection[0] = (xDiff / (((float)paddle.getWidth()) / 2.f));
@@ -114,8 +125,74 @@ void Ball::update(float dt)
     setDirectionY(newDirection[1]);
   }
 
+  // TODO check whether the ball hits the out-of-bounds detector.
+  if (mState != State::BRICK_HIT) {
+    // resolve the current player and level and get a reference to level bricks.
+    auto courtScene = std::dynamic_pointer_cast<CourtScene>(mGame.getScene());
+    auto player = courtScene->getActivePlayer();
+    auto level = courtScene->getPlayerLevel(player);
+    auto& bricks = courtScene->getBricks(player, level);
+
+    // check whether the ball hits with the court bricks.
+    for (auto& brick : bricks) {
+      if (collides(brick)) {
+        // TODO check for the end-game-mode.
+
+        // disable the brick from the level.
+        brick.setVisible(false);
+        brick.setEnabled(false);
+
+        // perform actions base on the color of the brick we just hit.
+        if (equals(brick.getColor(), CourtScene::BRICKS_1_FILL_STYLE)) {
+          courtScene->addPlayerScore(player, 1);
+        } else if (equals(brick.getColor(), CourtScene::BRICKS_2_FILL_STYLE)) {
+          courtScene->addPlayerScore(player, 3);
+        } else if (equals(brick.getColor(), CourtScene::BRICKS_3_FILL_STYLE)) {
+          courtScene->addPlayerScore(player, 5);
+          if (mOrangeBricksHit == false) {
+            incrementVelocity();
+            mOrangeBricksHit = true;
+          }
+        } else if (equals(brick.getColor(), CourtScene::BRICKS_4_FILL_STYLE)) {
+          courtScene->addPlayerScore(player, 7);
+          if (mRedBricksHit == false) {
+            incrementVelocity();
+            mRedBricksHit = true;
+          }
+        }
+
+        // add a hit into the hit counter.
+        incrementHitCount();
+
+        // TODO calculate the amount of destroyed bricks.
+        // TODO check whether to end the scene / game.
+
+        // change the ball state to require a paddle of wall hit next.
+        mState = State::BRICK_HIT;
+
+        // invert the ball y-axis direction.
+        mDirectionY = -mDirectionY;
+        break;
+      }
+    }
+
+  }
+
   // TODO
 
   // move the ball.
   move(dt);
+}
+
+void Ball::incrementHitCount()
+{
+  mHitCount++;
+  if (mHitCount == 4 || mHitCount == 12) {
+    incrementVelocity();
+  }
+}
+
+void Ball::incrementVelocity()
+{
+  mVelocity += mVelocityIncrementStep;
 }

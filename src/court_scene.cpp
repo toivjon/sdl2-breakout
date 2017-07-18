@@ -17,7 +17,7 @@ const SDL_Color CourtScene::BRICKS_4_FILL_STYLE = { 0xff, 0x00, 0x00, 0xff };
 
 CourtScene::CourtScene(Game& game)
   : Scene(game),
-    mActivePlayer(ActivePlayer::PLAYER_1),
+    mActivePlayer(Player::PLAYER_1),
     mPlayerLevel({0, 0}),
     mLeftWall(game),
     mRightWall(game),
@@ -256,4 +256,11 @@ void CourtScene::keyUp(SDL_KeyboardEvent& event)
   case SDLK_SPACE:
     break;
   }
+}
+
+void CourtScene::addPlayerScore(Player player, int amount)
+{
+  mPlayerScore[(int)player] += amount;
+  // TODO start blinking score digits.
+  // TODO refresh score digits.
 }
