@@ -18,15 +18,9 @@ namespace breakout
   class Scene
   {
   public:
-    Scene() = delete;
     Scene(Game& game) : mGame(game) {}
-    Scene(const Scene&) = delete;
-    Scene(Scene&&) = delete;
 
-    Scene& operator=(const Scene&) = delete;
-    Scene& operator=(Scene&&) = delete;
-
-    virtual ~Scene() {}
+    virtual ~Scene() = default;
 
     virtual void update(float dt) {}
     virtual void render() {}
