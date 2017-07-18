@@ -18,8 +18,6 @@ namespace breakout
   public:
     Paddle(Game& game);
 
-    virtual ~Paddle() = default;
-
     void shrink();
     void reset();
     void update(float dt);
