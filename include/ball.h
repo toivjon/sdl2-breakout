@@ -1,3 +1,11 @@
+/*! The ball encapsulation for the Breakout game.
+ *
+ *  This class encapsulates the presentation and the logic for the ball in the
+ *  Breakout game. The main collision logic is implemented within the functions
+ *  in this class, where the ball behaviour is changed based on the collided
+ *  objects. Also the main logic to check the game end and switching between
+ *  the players are launched from the ball implementation.
+ */
 #ifndef BREAKOUT_BALL_H
 #define BREAKOUT_BALL_H
 
