@@ -205,6 +205,9 @@ void CourtScene::update(float dt)
   mPlayerScoreDigits[1][1].update(dt);
   mPlayerScoreDigits[1][2].update(dt);
   mPlayerScoreDigits[1][3].update(dt);
+
+  // update the player score digit.
+  mPlayerIndexDigit.update(dt);
 }
 
 void CourtScene::render()
@@ -346,8 +349,8 @@ void CourtScene::switchPlayer()
   if (mPlayerBallIndex[(int)(mActivePlayer == Player::PLAYER_1 ? Player::PLAYER_2 : Player::PLAYER_1)] < 4) {
     // toggle the next active player index.
     mActivePlayer = (mActivePlayer == Player::PLAYER_1 ? Player::PLAYER_2 : Player::PLAYER_1);
-    mPlayerBallIndexDigit.setValue(mActivePlayer == Player::PLAYER_1 ? 1 : 2);
-    mPlayerBallIndexDigit.setBlink(true);
+    mPlayerIndexDigit.setValue(mActivePlayer == Player::PLAYER_1 ? 1 : 2);
+    mPlayerIndexDigit.setBlink(true);
 
     // show the next active player ball index.
     mPlayerBallIndexDigit.setValue(mPlayerBallIndex[(int)mActivePlayer]);
