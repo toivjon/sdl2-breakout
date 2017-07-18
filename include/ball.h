@@ -18,6 +18,8 @@ namespace breakout
     void incrementHitCount();
     void incrementVelocity();
 
+    void setEndGameMode(bool mode) { mEndGameMode = mode; }
+
     float getInitialVelocity() const { return mInitialVelocity; }
   private:
     float mInitialVelocity;
@@ -26,6 +28,7 @@ namespace breakout
     int   mHitCount;
     bool  mOrangeBricksHit;
     bool  mRedBricksHit;
+    bool  mEndGameMode;
   };
 }
 

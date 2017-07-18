@@ -20,11 +20,13 @@ CourtScene::CourtScene(Game& game)
     mActivePlayer(Player::PLAYER_1),
     mPlayerLevel({0, 0}),
     mPlayerScore({0, 0}),
+    mPlayerBallIndex({1, 1}),
     mLeftWall(game),
     mRightWall(game),
     mTopWall(game),
     mBall(game),
     mPaddle(game),
+    mOutOfBoundsDetector(game),
     mPlayerIndexDigit(game),
     mPlayerBallIndexDigit(game)
 {
@@ -176,6 +178,12 @@ CourtScene::CourtScene(Game& game)
     }
     y += slotHeight + slotSpacing;
   }
+
+  // create the hidden out-of-bounds detector.
+  mOutOfBoundsDetector.setX(0);
+  mOutOfBoundsDetector.setY(windowHeight + slotHeight);
+  mOutOfBoundsDetector.setWidth(windowWidth);
+  mOutOfBoundsDetector.setHeight(1000);
 }
 
 CourtScene::~CourtScene()
@@ -302,4 +310,46 @@ void CourtScene::blinkScoreDigits(Player player)
   mPlayerScoreDigits[playerIdx][1].setBlink(true);
   mPlayerScoreDigits[playerIdx][2].setBlink(true);
   mPlayerScoreDigits[playerIdx][3].setBlink(true);
+}
+
+void CourtScene::addPlayerLevel(std::vector<Collideable>& level, Player player)
+{
+  mPlayerBricks[(int)player].push_back(level);
+}
+
+void CourtScene::incrementBallIndex(Player player)
+{
+  mPlayerBallIndex[(int)player]++;
+  mPlayerBallIndexDigit.setValue(mPlayerBallIndex[(int)player]);
+}
+
+void CourtScene::resetBallAndPaddle()
+{
+  mPaddle.reset();
+  mBall.reset();
+}
+
+void CourtScene::endGame()
+{
+  // stretch the paddle to fit whole width of the screen.
+  mPaddle.setWidth(mTopWall.getWidth() - mRightWall.getWidth() - mLeftWall.getWidth());
+  mPaddle.setX(mRightWall.getWidth());
+
+  // make the ball bounce infinitely around the scene.
+  mBall.setVelocity(mBall.getInitialVelocity());
+  mBall.setVisible(true);
+  mBall.setEndGameMode(true);
+}
+
+void CourtScene::switchPlayer()
+{
+  if (mPlayerBallIndex[(int)(mActivePlayer == Player::PLAYER_1 ? Player::PLAYER_2 : Player::PLAYER_1)] < 4) {
+    // toggle the next active player index.
+    mActivePlayer = (mActivePlayer == Player::PLAYER_1 ? Player::PLAYER_2 : Player::PLAYER_1);
+    mPlayerBallIndexDigit.setValue(mActivePlayer == Player::PLAYER_1 ? 1 : 2);
+    mPlayerBallIndexDigit.setBlink(true);
+
+    // show the next active player ball index.
+    mPlayerBallIndexDigit.setValue(mPlayerBallIndex[(int)mActivePlayer]);
+  }
 }

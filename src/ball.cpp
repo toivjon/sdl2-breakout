@@ -40,7 +40,8 @@ Ball::Ball(Game& game)
     mState(State::NORMAL),
     mHitCount(0),
     mOrangeBricksHit(false),
-    mRedBricksHit(false)
+    mRedBricksHit(false),
+    mEndGameMode(false)
 {
   // query the window size from the window instance
   int windowWidth, windowHeight;
@@ -84,6 +85,7 @@ void Ball::update(float dt)
 
   auto scene = mGame.getScene();
   auto courtScene = std::dynamic_pointer_cast<CourtScene>(scene);
+  auto player = courtScene->getActivePlayer();
 
   // check whether the ball collides with the top wall.
   const auto& topWall = courtScene->getTopWall();
@@ -125,11 +127,44 @@ void Ball::update(float dt)
     setDirectionY(newDirection[1]);
   }
 
-  // TODO check whether the ball hits the out-of-bounds detector.
-  if (mState != State::BRICK_HIT) {
-    // resolve the current player and level and get a reference to level bricks.
-    auto courtScene = std::dynamic_pointer_cast<CourtScene>(mGame.getScene());
-    auto player = courtScene->getActivePlayer();
+  // check whether the ball has entered so called out-of-bounds area.
+  // after the ball enters this section, it is considered as being lost.
+  // game ends i.e. goes into end animation after the last ball is used.
+  // two player games will also need to change the player index here.
+  if (mDirectionY > 0.f && collides(courtScene->getOutOfBoundsDetector())) {
+    courtScene->incrementBallIndex(player);
+    courtScene->resetBallAndPaddle();
+    if (mGame.getPlayMode() == Game::PlayMode::SINGLE_PLAYER) {
+      if (courtScene->getPlayerBallIndex(player) > 3) {
+        courtScene->endGame();
+      }
+    } else {
+      // hidden special case, which may occur only in two player games.
+      // here an additional level is added to second player levels if
+      // the first player has completed the first level with the third
+      // ball and whether the ball gets off-the-screen immediately by
+      // not hiting any bricks before. This hidden speciality allows
+      // the second player to achieve the maximum of 1344 points instead
+      // of the normal 896 points, which is available with two levels.
+      if (player == CourtScene::Player::PLAYER_1) {
+        if (courtScene->getPlayerBallIndex(player) > 3) {
+          if (courtScene->getPlayerLevel(player) == 1) {
+            auto& bricks = courtScene->getBricks(player, 1);
+            courtScene->addPlayerLevel(bricks, CourtScene::Player::PLAYER_2);
+          }
+        }
+      }
+
+      // check whether it's time to end the game or a time to change player.
+      if (courtScene->getPlayerBallIndex(CourtScene::Player::PLAYER_1) > 3
+       && courtScene->getPlayerBallIndex(CourtScene::Player::PLAYER_2)) {
+        courtScene->endGame();
+      } else {
+        courtScene->switchPlayer();
+      }
+    }
+  } else if (mState != State::BRICK_HIT) {
+    // get the current level and get a reference to level bricks.
     auto level = courtScene->getPlayerLevel(player);
     auto& bricks = courtScene->getBricks(player, level);
 

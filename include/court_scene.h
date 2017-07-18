@@ -44,21 +44,27 @@ namespace breakout
     void keyDown(SDL_KeyboardEvent& event) override;
     void keyUp(SDL_KeyboardEvent& event) override;
 
-    const Collideable& getLeftWall() const  { return mLeftWall;   }
-    const Collideable& getRightWall() const { return mRightWall;  }
-    const Collideable& getTopWall() const   { return mTopWall;    }
-    const Ball& getBall() const             { return mBall;       }
-    const Paddle& getPaddle() const         { return mPaddle;     }
+    const Collideable& getLeftWall() const            { return mLeftWall;             }
+    const Collideable& getRightWall() const           { return mRightWall;            }
+    const Collideable& getTopWall() const             { return mTopWall;              }
+    const Ball& getBall() const                       { return mBall;                 }
+    const Paddle& getPaddle() const                   { return mPaddle;               }
+    const Collideable& getOutOfBoundsDetector() const { return mOutOfBoundsDetector;  }
 
     Player getActivePlayer() const { return mActivePlayer; }
     int getPlayerLevel(Player player) const { return mPlayerLevel[(int)player]; }
     std::vector<Collideable>& getBricks(Player player, int level) { return mPlayerBricks[(int)player][level]; }
+    int getPlayerBallIndex(Player player) const { return mPlayerBallIndex[(int)player]; }
 
     void setActivePlayer(Player activePlayer) { mActivePlayer = activePlayer; }
     void setPlayerLevel(Player player, int level) { mPlayerLevel[(int)player] = level; }
 
     void addPlayerScore(Player player, int amount);
-
+    void addPlayerLevel(std::vector<Collideable>& level, Player player);
+    void incrementBallIndex(Player player);
+    void resetBallAndPaddle();
+    void endGame();
+    void switchPlayer();
   private:
     void refreshScoreDigits(Player player);
     void blinkScoreDigits(Player player);
@@ -66,6 +72,7 @@ namespace breakout
     Player             mActivePlayer;
     std::array<int, 2> mPlayerLevel;
     std::array<int, 2> mPlayerScore;
+    std::array<int, 2> mPlayerBallIndex;
 
     Collideable                             mLeftWall;
     Collideable                             mRightWall;
@@ -76,6 +83,7 @@ namespace breakout
     Digit                                   mPlayerBallIndexDigit;
     std::vector<std::vector<Digit>>         mPlayerScoreDigits;
     std::vector<std::vector<std::vector<Collideable>>>   mPlayerBricks;
+    Collideable                             mOutOfBoundsDetector;
   };
 }
 
