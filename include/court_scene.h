@@ -1,3 +1,9 @@
+/*! The court scene for the Breakout game.
+ *
+ * This is the main game scene where the game simulation will be processed.
+ * It contains all the logics required to move game entities and to make the
+ * game act as a "game". This is the biggest scene from the two scenes.
+ */
 #ifndef BREAKOUT_COURT_SCENE_H
 #define BREAKOUT_COURT_SCENE_H
 
@@ -28,13 +34,7 @@ namespace breakout
       PLAYER_2 = 1
     };
 
-    CourtScene() = delete;
     CourtScene(Game& game);
-    CourtScene(const CourtScene&) = delete;
-    CourtScene(CourtScene&&) = delete;
-
-    CourtScene& operator=(const CourtScene&) = delete;
-    CourtScene& operator=(CourtScene&&) = delete;
 
     ~CourtScene();
 
