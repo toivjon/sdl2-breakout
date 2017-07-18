@@ -19,6 +19,7 @@ CourtScene::CourtScene(Game& game)
   : Scene(game),
     mActivePlayer(Player::PLAYER_1),
     mPlayerLevel({0, 0}),
+    mPlayerScore({0, 0}),
     mLeftWall(game),
     mRightWall(game),
     mTopWall(game),
@@ -262,5 +263,22 @@ void CourtScene::addPlayerScore(Player player, int amount)
 {
   mPlayerScore[(int)player] += amount;
   // TODO start blinking score digits.
-  // TODO refresh score digits.
+  refreshScoreDigits(player);
+}
+
+void CourtScene::refreshScoreDigits(Player player)
+{
+  // get the target player score in a string presentation.
+  auto scoreString = std::to_string(mPlayerScore[(int)player]);
+
+  // ensure that the "secret" fourth number gets visible if required.
+  if (scoreString.length() == 4) {
+    mPlayerScoreDigits[(int)player][0].setVisible(true);
+  }
+
+  // assign score values to corresponding player score digits.
+  for (auto i = 0u; i < scoreString.length(); i++) {
+    auto value = std::stoi(scoreString.substr((scoreString.length() - 1) - i, 1));
+    mPlayerScoreDigits[(int)player][3 - i].setValue(value);
+  }
 }

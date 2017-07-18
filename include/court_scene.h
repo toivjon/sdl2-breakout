@@ -58,6 +58,9 @@ namespace breakout
     void setPlayerLevel(Player player, int level) { mPlayerLevel[(int)player] = level; }
 
     void addPlayerScore(Player player, int amount);
+
+  private:
+    void refreshScoreDigits(Player player);
   private:
     Player             mActivePlayer;
     std::array<int, 2> mPlayerLevel;
