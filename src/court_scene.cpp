@@ -10,8 +10,15 @@ using namespace breakout;
 // the divisor of the slot height related to window client area width.
 #define SLOT_HEIGHT_DIVISOR 45
 
+const SDL_Color CourtScene::BRICKS_1_FILL_STYLE = { 0xff, 0xf0, 0x00, 0xff };
+const SDL_Color CourtScene::BRICKS_2_FILL_STYLE = { 0x00, 0x80, 0x00, 0xff };
+const SDL_Color CourtScene::BRICKS_3_FILL_STYLE = { 0xff, 0xa5, 0x00, 0xff };
+const SDL_Color CourtScene::BRICKS_4_FILL_STYLE = { 0xff, 0x00, 0x00, 0xff };
+
 CourtScene::CourtScene(Game& game)
   : Scene(game),
+    mActivePlayer(ActivePlayer::PLAYER_1),
+    mPlayerLevel({0, 0}),
     mLeftWall(game),
     mRightWall(game),
     mTopWall(game),
@@ -109,6 +116,65 @@ CourtScene::CourtScene(Game& game)
   // hide hidden score indicators (fourst numbers).
   mPlayerScoreDigits[0][0].setVisible(false);
   mPlayerScoreDigits[1][0].setVisible(false);
+
+  // initialize bricks for both players.
+  mPlayerBricks.resize(2);
+  mPlayerBricks[0].resize(2);
+  mPlayerBricks[1].resize(2);
+  mPlayerBricks[0][0].resize(112, mGame);
+  mPlayerBricks[0][1].resize(112, mGame);
+  mPlayerBricks[1][0].resize(112, mGame);
+  mPlayerBricks[1][1].resize(112, mGame);
+
+  // construct brick definitions for all levels.
+  auto y = scoreDigitY + digitHeight + slotSpacing;
+  for (auto i = 0u; i < 8; i++) {
+    // resolve the color to be used within the current row index.
+    SDL_Color color;
+    if (i < 2) {
+      color = CourtScene::BRICKS_4_FILL_STYLE;
+    } else if (i < 4) {
+      color = CourtScene::BRICKS_3_FILL_STYLE;
+    } else if (i < 6) {
+      color = CourtScene::BRICKS_2_FILL_STYLE;
+    } else {
+      color = CourtScene::BRICKS_1_FILL_STYLE;
+    }
+
+    // start placing from the left wall.
+    auto x = slotHeight;
+
+    // create all bricks for both players and for all levels.
+    for (auto j = 0u; j < 14; j++) {
+      auto index = (i * 14) + j;
+      mPlayerBricks[0][0][index].setX(x);
+      mPlayerBricks[0][0][index].setY(y);
+      mPlayerBricks[0][0][index].setWidth(slotWidth);
+      mPlayerBricks[0][0][index].setHeight(slotHeight);
+      mPlayerBricks[0][0][index].setColor(color);
+
+      mPlayerBricks[0][1][index].setX(x);
+      mPlayerBricks[0][1][index].setY(y);
+      mPlayerBricks[0][1][index].setWidth(slotWidth);
+      mPlayerBricks[0][1][index].setHeight(slotHeight);
+      mPlayerBricks[0][1][index].setColor(color);
+
+      mPlayerBricks[1][0][index].setX(x);
+      mPlayerBricks[1][0][index].setY(y);
+      mPlayerBricks[1][0][index].setWidth(slotWidth);
+      mPlayerBricks[1][0][index].setHeight(slotHeight);
+      mPlayerBricks[1][0][index].setColor(color);
+
+      mPlayerBricks[1][1][index].setX(x);
+      mPlayerBricks[1][1][index].setY(y);
+      mPlayerBricks[1][1][index].setWidth(slotWidth);
+      mPlayerBricks[1][1][index].setHeight(slotHeight);
+      mPlayerBricks[1][1][index].setColor(color);
+
+      x += slotWidth + slotSpacing;
+    }
+    y += slotHeight + slotSpacing;
+  }
 }
 
 CourtScene::~CourtScene()
@@ -132,6 +198,13 @@ void CourtScene::render()
   mPaddle.render(renderer);
   mPlayerIndexDigit.render(renderer);
   mPlayerBallIndexDigit.render(renderer);
+
+  // render the bricks for the currently active player and level.
+  for (auto i = 0u; i < 112; i++) {
+    auto player = (int)mActivePlayer;
+    auto level = mPlayerLevel[player];
+    mPlayerBricks[player][level][i].render(renderer);
+  }
 
   mPlayerScoreDigits[0][0].render(renderer);
   mPlayerScoreDigits[0][1].render(renderer);

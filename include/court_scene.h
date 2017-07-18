@@ -9,6 +9,7 @@
 #include "paddle.h"
 #include "scene.h"
 
+#include <array>
 #include <vector>
 
 namespace breakout
@@ -16,6 +17,17 @@ namespace breakout
 	class CourtScene final : public Scene
 	{
 	public:
+    static const SDL_Color BRICKS_1_FILL_STYLE;
+    static const SDL_Color BRICKS_2_FILL_STYLE;
+    static const SDL_Color BRICKS_3_FILL_STYLE;
+    static const SDL_Color BRICKS_4_FILL_STYLE;
+
+    /** An enumeration for the currently active player index. */
+    enum class ActivePlayer : int {
+      PLAYER_1 = 0,
+      PLAYER_2 = 1
+    };
+
     CourtScene() = delete;
     CourtScene(Game& game);
     CourtScene(const CourtScene&) = delete;
@@ -37,15 +49,25 @@ namespace breakout
     const Collideable& getTopWall() const   { return mTopWall;    }
     const Ball& getBall() const             { return mBall;       }
     const Paddle& getPaddle() const         { return mPaddle;     }
+
+    ActivePlayer getActivePlayer() const { return mActivePlayer; }
+    int getPlayerLevel(ActivePlayer player) const { return mPlayerLevel[(int)player]; }
+
+    void setActivePlayer(ActivePlayer activePlayer) { mActivePlayer = activePlayer; }
+    void setPlayerLevel(ActivePlayer player, int level) { mPlayerLevel[(int)player] = level; }
   private:
-    Collideable                     mLeftWall;
-    Collideable                     mRightWall;
-    Collideable                     mTopWall;
-    Ball                            mBall;
-    Paddle                          mPaddle;
-    Digit                           mPlayerIndexDigit;
-    Digit                           mPlayerBallIndexDigit;
-    std::vector<std::vector<Digit>> mPlayerScoreDigits;
+    ActivePlayer       mActivePlayer;
+    std::array<int, 2> mPlayerLevel;
+
+    Collideable                             mLeftWall;
+    Collideable                             mRightWall;
+    Collideable                             mTopWall;
+    Ball                                    mBall;
+    Paddle                                  mPaddle;
+    Digit                                   mPlayerIndexDigit;
+    Digit                                   mPlayerBallIndexDigit;
+    std::vector<std::vector<Digit>>         mPlayerScoreDigits;
+    std::vector<std::vector<std::vector<Collideable>>>   mPlayerBricks;
   };
 }
 
