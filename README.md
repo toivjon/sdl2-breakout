@@ -3,6 +3,8 @@ A SDL2 implementation of the classic Breakout game.
 
 Contains game modes for a one and two player games.
 
+Development blog entry: https://toivjon.wordpress.com/2017/07/19/sdl2-breakout/
+
 ## Scenes
 Game is split into following scenes:
 1. A welcome scene, which contains the main menu.
